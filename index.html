@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mock Interview</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-logo" onclick="goToHome()">
+            <i class="fas fa-robot"></i>
+            <span>InterviewAI</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link active" data-section="home">Home</a>
+            <a href="#" class="nav-link" data-section="practice">Practice</a>
+            <a href="#" class="nav-link" data-section="resources">Resources</a>
+            <a href="#" class="nav-link" data-section="about">About</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="section active" id="home">
+            <div class="sidebar">
+                <div class="progress-tracker">
+                    <h3>Interview Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress" id="progressBar"></div>
+                    </div>
+                    <p id="progressText">Question 1/10</p>
+                </div>
+                <div class="interview-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="duration">00:00</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i>
+                        <span id="averageScore">Score: 0/10</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <div class="interview-setup">
+                    <h2>Choose Interview Type</h2>
+                    <div class="interview-types">
+                        <!-- Interview types will be added here by JavaScript -->
+                    </div>
+                    <div class="start-interview">
+                        <button id="startButton" class="start-btn" disabled>
+                            <i class="fas fa-play"></i>
+                            Start Interview
+                        </button>
+                    </div>
+                </div>
+
+                <div class="interview-session" style="display: none;">
+                    <div class="interview-header">
+                        <button class="back-btn" onclick="backToHome()">
+                            <i class="fas fa-arrow-left"></i> Back to Home
+                        </button>
+                        <h2>Interview Session</h2>
+                    </div>
+                    
+                    <div class="chat-container" id="chatContainer">
+                        <div class="welcome-message">
+                            <h2>Welcome to your AI Mock Interview! 🚀</h2>
+                            <p>Click Start when you're ready to begin.</p>
+                            <button class="begin-btn" onclick="beginInterview()">
+                                <i class="fas fa-play"></i> Begin Interview
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="avatar-container">
+                        <div class="avatar-controls">
+                            <button class="avatar-btn" id="muteBtn" onclick="toggleMute()">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                        </div>
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <div class="avatar-head">
+                                    <div class="avatar-face">
+                                        <div class="avatar-eyes">
+                                            <div class="avatar-eye"></div>
+                                            <div class="avatar-eye"></div>
+                                        </div>
+                                        <div class="avatar-mouth"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="avatar-speaking-indicator">
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="video-container" style="display: none;">
+                        <button class="minimize-btn" onclick="toggleVideoSize()">
+                            <i class="fas fa-compress"></i>
+                        </button>
+                        <video id="userVideo" autoplay muted playsinline></video>
+                        <div class="video-controls">
+                            <button id="toggleVideo" class="video-btn">
+                                <i class="fas fa-video"></i>
+                            </button>
+                            <button id="toggleAudio" class="video-btn">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="input-section">
+                        <div class="input-container">
+                            <textarea 
+                                id="userInput" 
+                                placeholder="Type your answer here..."
+                                rows="1"
+                                onInput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"
+                            ></textarea>
+                            <div class="input-controls">
+                                <button class="mic-btn" id="micButton" onclick="toggleMic()">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                                <button class="send-btn" onclick="handleSubmit()">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            <div class="typing-indicator" style="display: none;">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="practice">
+            <h2>Practice Interviews</h2>
+            <div class="practice-container">
+                <!-- Question Bank -->
+                <div class="question-bank">
+                    <div class="question-filters">
+                        <select id="categoryFilter" onchange="filterQuestions()">
+                            <option value="all">All Categories</option>
+                            <option value="behavioral">Behavioral</option>
+                            <option value="technical">Technical</option>
+                            <option value="general">General</option>
+                        </select>
+                        <input type="text" 
+                            id="searchQuestions" 
+                            placeholder="Search questions..." 
+                            onkeyup="filterQuestions()">
+                    </div>
+                    <div class="question-list" id="questionList">
+                        <!-- Questions will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="resources">
+            <h2>Interview Resources</h2>
+            <div class="resources-container">
+                <!-- Interview Preparation -->
+                <div class="resource-section">
+                    <h3>Interview Preparation</h3>
+                    <div class="resource-cards">
+                        <div class="resource-card">
+                            <i class="fas fa-file-alt"></i>
+                            <h4>Common Questions</h4>
+                            <ul>
+                                <li>Behavioral Questions</li>
+                                <li>Technical Questions</li>
+                                <li>HR Questions</li>
+                            </ul>
+                            <button onclick="showQuestionLibrary()">View Questions</button>
+                        </div>
+                        <div class="resource-card">
+                            <i class="fas fa-lightbulb"></i>
+                            <h4>Interview Tips</h4>
+                            <ul>
+                                <li>Body Language</li>
+                                <li>STAR Method</li>
+                                <li>Best Practices</li>
+                            </ul>
+                            <button onclick="showInterviewTips()">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resume Building -->
+                <div class="resource-section">
+                    <h3>Resume Building</h3>
+                    <div class="resource-cards">
+                        <div class="resource-card">
+                            <i class="fas fa-download"></i>
+                            <h4>Resume Templates</h4>
+                            <div class="template-preview">
+                                <img src="path/to/template1.jpg" alt="Professional Template">
+                                <img src="path/to/template2.jpg" alt="Creative Template">
+                            </div>
+                            <button onclick="downloadTemplate()">Download Templates</button>
+                        </div>
+                        <div class="resource-card">
+                            <i class="fas fa-check-circle"></i>
+                            <h4>Resume Checklist</h4>
+                            <div class="checklist">
+                                <label><input type="checkbox"> Clear formatting</label>
+                                <label><input type="checkbox"> Action verbs</label>
+                                <label><input type="checkbox"> Key achievements</label>
+                                <label><input type="checkbox"> No typos</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick References -->
+                <div class="resource-section">
+                    <h3>Quick References</h3>
+                    <div class="quick-refs">
+                        <div class="ref-card" onclick="toggleReference(this)">
+                            <h4>STAR Method</h4>
+                            <div class="ref-content">
+                                <p><strong>S</strong>ituation: Set the scene</p>
+                                <p><strong>T</strong>ask: Describe the challenge</p>
+                                <p><strong>A</strong>ction: Explain what you did</p>
+                                <p><strong>R</strong>esult: Share the outcome</p>
+                            </div>
+                        </div>
+                        <div class="ref-card" onclick="toggleReference(this)">
+                            <h4>Follow-up Questions</h4>
+                            <div class="ref-content">
+                                <ul>
+                                    <li>What's the team structure?</li>
+                                    <li>Growth opportunities?</li>
+                                    <li>Project methodologies?</li>
+                                    <li>Success metrics?</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="about">
+            <h2>About InterviewAI</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Our Mission</h3>
+                    <p>InterviewAI helps candidates prepare for job interviews through AI-powered mock interviews and personalized feedback.</p>
+                    
+                    <h3>Features</h3>
+                    <ul>
+                        <li>Real-time AI feedback</li>
+                        <li>Multiple interview types</li>
+                        <li>Performance tracking</li>
+                        <li>Customized practice sessions</li>
+                    </ul>
+                    
+                    <h3>Contact Us</h3>
+                    <p>Email: 
+                        <a href="mailto:smwasi545@gmail.com">smwasi545@gmail.com</a>
+                        <br>
+                        <a href="mailto:areebakrami06@gmail.com">areebakrami06@gmail.com</a>
+                    </p>
+                    <p>Follow us on social media:</p>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/areeb-akrami-38597533b" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/Areeb-Akrami" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://github.com/syedwasi-07" target="_blank"><i class="fab fa-github-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

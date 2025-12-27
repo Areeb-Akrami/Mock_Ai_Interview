@@ -1,0 +1,24 @@
+# Ignore node modules if you add a backend
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment variables (NEVER commit API keys)
+.env
+.env.local
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
